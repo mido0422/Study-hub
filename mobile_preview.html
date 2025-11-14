@@ -18,9 +18,14 @@
     <title>💻 Study Hub - Боловсрол загвар</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Mobile-specific styles */
+        /* Mobile-specific styles - Modern App Design */
         .mobile-device {
             font-size: 16px;
+        }
+        
+        .mobile-device body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff6b6b 100%);
+            background-attachment: fixed;
         }
         
         .mobile-device .app-container {
@@ -30,63 +35,203 @@
             box-shadow: none;
             height: 100vh;
             overflow: hidden;
+            background: transparent;
         }
         
         .mobile-device .header {
-            padding: 10px 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 0;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 0 0 25px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+        
+        .mobile-device .header h1 {
+            color: white;
+            font-weight: 700;
+            font-size: 1.8rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            margin: 0;
         }
         
         .mobile-device .nav-tabs {
-            padding: 0 10px;
+            padding: 10px 15px;
             overflow-x: auto;
             white-space: nowrap;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            margin: 0 15px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .mobile-device .nav-tab {
             min-width: 80px;
-            font-size: 0.8rem;
-            padding: 8px 12px;
-            margin: 0 2px;
+            font-size: 0.85rem;
+            padding: 12px 16px;
+            margin: 0 5px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            transition: all 0.3s ease;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .mobile-device .nav-tab:hover,
+        .mobile-device .nav-tab.active {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
         .mobile-device .content-area {
-            padding: 15px;
-            height: calc(100vh - 120px);
+            padding: 0 15px 20px;
+            height: calc(100vh - 200px);
             overflow-y: auto;
         }
         
         .mobile-device .feature-grid {
-            grid-template-columns: 1fr;
-            gap: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         
         .mobile-device .feature-card {
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 25px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .mobile-device .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 25px;
+            pointer-events: none;
+        }
+        
+        .mobile-device .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.2);
         }
         
         .mobile-device .welcome-card {
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mobile-device .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 25px;
+            pointer-events: none;
+        }
+        
+        .mobile-device .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        
+        .mobile-device h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .mobile-device h2 {
+            color: white;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .mobile-device p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 1;
         }
         
         /* Touch-friendly buttons */
         .mobile-device button {
-            min-height: 44px;
-            min-width: 44px;
+            min-height: 48px;
+            min-width: 48px;
             touch-action: manipulation;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .mobile-device button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
         /* Mobile form optimizations */
         .mobile-device input, .mobile-device textarea, .mobile-device select {
-            font-size: 16px; /* Prevents zoom on iOS */
-            padding: 12px;
+            font-size: 16px;
+            padding: 15px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .mobile-device input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Mobile cards layout */
+        .mobile-device .settings-card {
+            margin-bottom: 20px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
         }
         
         /* Hide desktop-only elements on mobile */
@@ -97,6 +242,11 @@
             
             .mobile-only {
                 display: block !important;
+            }
+            
+            body.mobile-device {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff6b6b 100%);
+                background-attachment: fixed;
             }
         }
         
@@ -4413,12 +4563,22 @@
 </head>
 <body class="education-theme">
     <div class="app-container">
-        <div class="header">
+        <!-- Modern Mobile Status Bar -->
+        <div class="status-bar mobile-only" style="position: fixed; top: 0; left: 0; right: 0; height: 44px; background: rgba(0,0,0,0.1); backdrop-filter: blur(20px); z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; color: white; font-size: 0.9rem; font-weight: 600;">
+            <div>9:41</div>
+            <div style="display: flex; gap: 5px;">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+        
+        <div class="header" style="margin-top: 0;">
             <div class="logo">
                 <span class="logo-icon">📚</span>
                 <span class="logo-text">Study Hub</span>
             </div>
-            <div class="subtitle">Боловсролын цогц платформ</div>
+            <div class="subtitle" style="color: rgba(255, 255, 255, 0.9);">Боловсролын цогц платформ</div>
             
             <div class="nav-tabs">
                 <button class="nav-tab active" onclick="showTab('home')">🏠 Нүүр</button>
@@ -4435,8 +4595,8 @@
             <div class="welcome-card">
                 <h2>🌟 Тавтай морилно уу!</h2>
                 <p>Study Hub платформт тавтай морилно уу. Энд та суралцахдаа шаардлагатай бүх хэрэгслийг олж авах боломжтой.</p>
-                <div class="mobile-only" style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 10px;">
-                    <p style="margin: 0; font-size: 0.9rem;">📱 Гар утасны дэлгэц дээр тохируулсан дизайнаар ашиглаж байна</p>
+                <div class="mobile-only" style="margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 15px; border: 1px solid rgba(255,255,255,0.2);">
+                    <p style="margin: 0; font-size: 0.9rem; color: rgba(255,255,255,0.9);">📱 Орчин үеийн app дизайнтай гар утасны дэлгэц дээр тохируулагдсан</p>
                 </div>
             </div>                <div class="feature-grid">
                     <div class="feature-card" onclick="showTab('notes')">
@@ -9703,16 +9863,27 @@
             
             if (isMobile) {
                 document.body.classList.add('mobile-device');
+                document.documentElement.classList.add('mobile-device');
+                
+                // Apply gradient background for mobile
+                document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff6b6b 100%)';
+                document.body.style.backgroundAttachment = 'fixed';
                 
                 // Show mobile-specific welcome message
                 setTimeout(() => {
-                    showNotification('📱 Гар утасны дэлгэцэд тохируулагдсан!', 'success');
-                }, 1500);
+                    showNotification('📱 Modern app дизайн идэвхжлээ!', 'success');
+                }, 2000);
                 
                 // Optimize for touch
                 document.querySelectorAll('button, .nav-tab, .feature-card').forEach(el => {
                     el.style.touchAction = 'manipulation';
                 });
+                
+                // Add status bar space
+                const appContainer = document.querySelector('.app-container');
+                if (appContainer) {
+                    appContainer.style.paddingTop = '44px';
+                }
             }
             
             // Load saved theme
