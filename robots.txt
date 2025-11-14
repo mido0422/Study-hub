@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://mido0422.github.io/sale-market-2/project/sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1

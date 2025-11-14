@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Hub - Нэвтрэх</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007bff">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+    
+    <!-- Google OAuth Script -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/mn_MN/sdk.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background Animation */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="30" r="1.5" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0.1;0.4;0.1" dur="2s" repeatCount="indefinite"/></circle><circle cx="40" cy="70" r="1" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0.1;0.5;0.1" dur="4s" repeatCount="indefinite"/></circle></svg>') repeat;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            margin: 20px;
+            position: relative;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .app-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .app-subtitle {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .form-container {
+            margin-bottom: 30px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 30px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #007bff;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .password-group {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            transform: scale(1.2);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 123, 255, 0.3);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        .submit-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .submit-button:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .social-login {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .social-title {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .social-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .social-button {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .social-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-button.google {
+            color: #4285f4;
+            border-color: #4285f4;
+        }
+
+        .social-button.facebook {
+            color: #1877f2;
+            border-color: #1877f2;
+        }
+
+        .demo-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+        }
+
+        .demo-button {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .logo {
+                font-size: 3rem;
+            }
+
+            .app-title {
+                font-size: 1.5rem;
+            }
+
+            .social-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo">📚</div>
+            <h1 class="app-title">Study Hub</h1>
+            <p class="app-subtitle">Суралцахуйн платформд тавтай морилно уу</p>
+        </div>
+
+        <div class="form-container">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="showTab('login')">Нэвтрэх</button>
+                <button class="tab-button" onclick="showTab('register')">Бүртгүүлэх</button>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="loginEmail">Имэйл хаяг</label>
+                    <input type="email" id="loginEmail" class="form-input" placeholder="example@mail.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Нууц үг</label>
+                    <div class="password-group">
+                        <input type="password" id="loginPassword" class="form-input" placeholder="Нууц үгээ оруулна уу" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">👁️</button>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Намайг санаж байх</label>
+                </div>
+
+                <button type="submit" class="submit-button">🚀 Нэвтрэх</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label for="registerName">Бүтэн нэр</label>
+                    <input type="text" id="registerName" class="form-input" placeholder="Таны нэр" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerEmail">Имэйл хаяг</label>
+                    <input type="email" id="registerEmail" class="form-input" placeholder="example@mail.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword">Нууц үг</label>
+                    <div class="password-group">
+                        <input type="password" id="registerPassword" class="form-input" placeholder="Дор хаяж 6 тэмдэгт" required minlength="6">
+                        <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')">👁️</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Нууц үг баталгаажуулах</label>
+                    <div class="password-group">
+                        <input type="password" id="confirmPassword" class="form-input" placeholder="Нууц үгээ дахин оруулна уу" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">👁️</button>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agreeTerms" required>
+                    <label for="agreeTerms">Үйлчилгээний нөхцөлтэй зөвшөөрч байна</label>
+                </div>
+
+                <button type="submit" class="submit-button">✨ Бүртгүүлэх</button>
+            </form>
+
+            <div class="forgot-password">
+                <a href="#" onclick="forgotPassword()">Нууц үгээ мартсан уу?</a>
+            </div>
+        </div>
+
+        <div class="social-login">
+            <div class="social-title">Эсвэл нийгмийн сүлжээгээр нэвтрэх</div>
+            <div class="social-buttons">
+                <!-- Google OAuth Button -->
+                <div id="googleSignInButton" class="social-button google">
+                    🔵 Google
+                </div>
+                
+                <!-- Facebook Login Button -->
+                <div class="social-button facebook" id="facebookLoginButton">
+                    🔵 Facebook
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <p style="color: #666; margin-bottom: 15px;">Эсвэл туршиж үзэх</p>
+            <button class="demo-button" onclick="loginAsDemo()">
+                🎮 Demo хэрэглэгчээр нэвтрэх
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show/hide forms
+            document.getElementById('loginForm').style.display = tabName === 'login' ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = tabName === 'register' ? 'block' : 'none';
+
+            // Clear messages
+            hideMessages();
+        }
+
+        // Password visibility toggle
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                button.textContent = '👁️';
+            }
+        }
+
+        // Show/hide messages
+        function showMessage(message, type) {
+            hideMessages();
+            const messageEl = document.getElementById(type + 'Message');
+            messageEl.textContent = message;
+            messageEl.style.display = 'block';
+        }
+
+        function hideMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // Form submissions
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('rememberMe').checked;
+
+            // Validate inputs
+            if (!email || !password) {
+                showMessage('Бүх талбарыг бөглөнө үү', 'error');
+                return;
+            }
+
+            // Demo login check
+            if (email === 'demo@studyhub.mn' && password === 'demo123') {
+                loginSuccess('Demo хэрэглэгч', email);
+                return;
+            }
+
+            // Check stored users
+            const users = JSON.parse(localStorage.getItem('studyHubUsers') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                loginSuccess(user.name, user.email, remember);
+            } else {
+                showMessage('Имэйл эсвэл нууц үг буруу байна', 'error');
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validate inputs
+            if (!name || !email || !password || !confirmPassword) {
+                showMessage('Бүх талбарыг бөглөнө үү', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage('Нууц үг таарахгүй байна', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage('Нууц үг дор хаяж 6 тэмдэгт байх ёстой', 'error');
+                return;
+            }
+
+            // Check if user exists
+            const users = JSON.parse(localStorage.getItem('studyHubUsers') || '[]');
+            if (users.find(u => u.email === email)) {
+                showMessage('Энэ имэйл хаягаар аль хэдийн бүртгүүлсэн байна', 'error');
+                return;
+            }
+
+            // Register user
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                password: password,
+                registeredAt: new Date().toISOString()
+            };
+
+            users.push(newUser);
+            localStorage.setItem('studyHubUsers', JSON.stringify(users));
+
+            showMessage('Амжилттай бүртгүүллээ! Одоо нэвтэрч болно.', 'success');
+            
+            // Switch to login tab after 2 seconds
+            setTimeout(() => {
+                showTab('login');
+                document.getElementById('loginEmail').value = email;
+            }, 2000);
+        });
+
+        // Login success
+        function loginSuccess(name, email, remember = false) {
+            const userData = {
+                name: name,
+                email: email,
+                loginTime: new Date().toISOString()
+            };
+
+            // Store session
+            if (remember) {
+                localStorage.setItem('studyHubSession', JSON.stringify(userData));
+            } else {
+                sessionStorage.setItem('studyHubSession', JSON.stringify(userData));
+            }
+
+            showMessage(`Тавтай морилно уу, ${name}!`, 'success');
+
+            // Redirect after 1.5 seconds
+            setTimeout(() => {
+                window.location.href = 'mobile_preview.html';
+            }, 1500);
+        }
+
+        // Google OAuth Configuration
+        let googleAuth;
+        
+        // Initialize Google OAuth
+        function initializeGoogleAuth() {
+            window.google.accounts.id.initialize({
+                client_id: '1234567890-abcdef.apps.googleusercontent.com', // Replace with your actual Google Client ID
+                callback: handleGoogleLogin,
+                auto_select: false,
+                cancel_on_tap_outside: false,
+            });
+            
+            // Render Google Sign-In button
+            window.google.accounts.id.renderButton(
+                document.getElementById('googleSignInButton'),
+                {
+                    theme: 'filled_blue',
+                    size: 'large',
+                    text: 'signin_with',
+                    shape: 'rectangular',
+                    logo_alignment: 'left',
+                    width: '100%'
+                }
+            );
+        }
+
+        // Handle Google login response
+        function handleGoogleLogin(response) {
+            try {
+                // Decode JWT token (in production, do this server-side)
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                
+                const userData = {
+                    id: payload.sub,
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture,
+                    provider: 'google'
+                };
+
+                // Save user data and login
+                saveOAuthUser(userData);
+                loginSuccess(userData.name, userData.email, true);
+                
+            } catch (error) {
+                console.error('Google login error:', error);
+                showMessage('Google нэвтрэх явцад алдаа гарлаа', 'error');
+            }
+        }
+
+        // Initialize Facebook SDK
+        function initializeFacebookAuth() {
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId: '1234567890123456', // Replace with your actual Facebook App ID
+                    cookie: true,
+                    xfbml: true,
+                    version: 'v18.0'
+                });
+
+                // Add click handler to Facebook button
+                document.getElementById('facebookLoginButton').addEventListener('click', loginWithFacebook);
+            };
+        }
+
+        // Facebook login function
+        function loginWithFacebook() {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    // Get user info
+                    FB.api('/me', {fields: 'name,email,picture'}, function(userData) {
+                        const user = {
+                            id: userData.id,
+                            name: userData.name,
+                            email: userData.email || `fb_${userData.id}@facebook.com`,
+                            picture: userData.picture.data.url,
+                            provider: 'facebook'
+                        };
+
+                        // Save user data and login
+                        saveOAuthUser(user);
+                        loginSuccess(user.name, user.email, true);
+                    });
+                } else {
+                    showMessage('Facebook нэвтрэх цуцлагдлаа', 'error');
+                }
+            }, {scope: 'email'});
+        }
+
+        // Save OAuth user data
+        function saveOAuthUser(userData) {
+            // Get existing users
+            const users = JSON.parse(localStorage.getItem('studyHubUsers') || '[]');
+            
+            // Check if user already exists
+            const existingUserIndex = users.findIndex(u => 
+                u.email === userData.email || 
+                (u.socialId === userData.id && u.provider === userData.provider)
+            );
+
+            if (existingUserIndex >= 0) {
+                // Update existing user
+                users[existingUserIndex] = {
+                    ...users[existingUserIndex],
+                    ...userData,
+                    lastLogin: new Date().toISOString()
+                };
+            } else {
+                // Add new user
+                const newUser = {
+                    id: Date.now(),
+                    name: userData.name,
+                    email: userData.email,
+                    socialId: userData.id,
+                    provider: userData.provider,
+                    picture: userData.picture,
+                    registeredAt: new Date().toISOString(),
+                    lastLogin: new Date().toISOString()
+                };
+                users.push(newUser);
+            }
+
+            localStorage.setItem('studyHubUsers', JSON.stringify(users));
+            
+            // Store OAuth user data separately for profile display
+            localStorage.setItem('currentOAuthUser', JSON.stringify(userData));
+        }
+
+        // Demo login
+        function loginAsDemo() {
+            loginSuccess('Demo хэрэглэгч', 'demo@studyhub.mn');
+        }
+
+        // Forgot password
+        function forgotPassword() {
+            const email = prompt('Имэйл хаягаа оруулна уу:');
+            if (email) {
+                showMessage('Нууц үг сэргээх заавар таны имэйл хаяг руу илгээгдлээ', 'success');
+            }
+        }
+
+        // Check if already logged in
+        window.addEventListener('load', function() {
+            const session = localStorage.getItem('studyHubSession') || sessionStorage.getItem('studyHubSession');
+            if (session) {
+                const userData = JSON.parse(session);
+                showMessage(`Сайн байна уу, ${userData.name}! Платформ руу шилжиж байна...`, 'success');
+                setTimeout(() => {
+                    window.location.href = 'mobile_preview.html';
+                }, 1500);
+                return;
+            }
+
+            // Initialize OAuth systems when page loads
+            setTimeout(() => {
+                try {
+                    // Initialize Google OAuth
+                    if (typeof google !== 'undefined' && google.accounts) {
+                        initializeGoogleAuth();
+                    }
+                    
+                    // Initialize Facebook SDK
+                    if (typeof FB !== 'undefined') {
+                        initializeFacebookAuth();
+                    } else {
+                        // If FB SDK not loaded yet, initialize when it loads
+                        window.fbAsyncInit = initializeFacebookAuth;
+                    }
+                } catch (error) {
+                    console.log('OAuth initialization error:', error);
+                }
+            }, 1000);
+        });
+
+        // Add some interactive effects
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

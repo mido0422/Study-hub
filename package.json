@@ -1,0 +1,36 @@
+{
+  "name": "study-hub",
+  "version": "1.0.0",
+  "description": "Монголын шилдэг суралцахуйн платформ - Тэмдэглэл хөтлөх, даалгавар удирдах, зорилго тавих",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "live-server --port=3000",
+    "build": "echo 'No build process required for vanilla HTML/CSS/JS'",
+    "test": "echo 'No tests configured yet'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mido0422/study-hub.git"
+  },
+  "keywords": [
+    "education",
+    "learning",
+    "mongolian",
+    "study",
+    "notes",
+    "tasks",
+    "goals",
+    "progress",
+    "боловсрол",
+    "суралцах",
+    "тэмдэглэл",
+    "даалгавар"
+  ],
+  "author": "Study Hub Team",
+  "license": "MIT",
+  "homepage": "https://mido0422.github.io/study-hub/",
+  "bugs": {
+    "url": "https://github.com/mido0422/study-hub/issues"
+  }
+}
