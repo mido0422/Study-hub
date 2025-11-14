@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Mobile Detection -->
+    <script>
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        if (isMobile) {
+            document.documentElement.classList.add('mobile-device');
+        }
+    </script>
     <title>Study Hub - Ахиц Дэвшилийн Самбар | Суралцахуйн статистик</title>
     <meta name="description" content="Study Hub ахиц дэвшилийн самбар - суралцахуйн статистик, зорилгын ахиц, цагийн хяналт, амжилтын дүн">
     <meta name="keywords" content="ахиц дэвшил, статистик, зорилго, цагийн хяналт, суралцах, монгол">

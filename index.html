@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Mobile Detection -->
+    <script>
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        if (isMobile) {
+            document.documentElement.classList.add('mobile-device');
+        }
+    </script>
     <title>Study Hub - Монголын Шилдэг Суралцахуйн Платформ | Боловсролын Вэб Сайт</title>
     <meta name="description" content="Study Hub - Монголын хамгийн шилдэг суралцахуйн платформ. Тэмдэглэл хөтлөх, даалгавар удирдах, зорилго тавих, ахиц дэвшил хянах боломжтой. Монгол хэлээр боловсрол олгох цогц вэб платформ.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
