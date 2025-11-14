@@ -7,9 +7,105 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="theme-color" content="#007bff">
+    <!-- Mobile Detection -->
+    <script>
+        // Detect mobile device
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        if (isMobile) {
+            document.documentElement.classList.add('mobile-device');
+        }
+    </script>
     <title>💻 Study Hub - Боловсрол загвар</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* Mobile-specific styles */
+        .mobile-device {
+            font-size: 16px;
+        }
+        
+        .mobile-device .app-container {
+            padding: 0;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .mobile-device .header {
+            padding: 10px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 0;
+        }
+        
+        .mobile-device .nav-tabs {
+            padding: 0 10px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .mobile-device .nav-tab {
+            min-width: 80px;
+            font-size: 0.8rem;
+            padding: 8px 12px;
+            margin: 0 2px;
+        }
+        
+        .mobile-device .content-area {
+            padding: 15px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        
+        .mobile-device .feature-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .mobile-device .feature-card {
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .mobile-device .welcome-card {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        /* Touch-friendly buttons */
+        .mobile-device button {
+            min-height: 44px;
+            min-width: 44px;
+            touch-action: manipulation;
+        }
+        
+        /* Mobile form optimizations */
+        .mobile-device input, .mobile-device textarea, .mobile-device select {
+            font-size: 16px; /* Prevents zoom on iOS */
+            padding: 12px;
+        }
+        
+        /* Hide desktop-only elements on mobile */
+        @media (max-width: 768px) {
+            .desktop-only {
+                display: none !important;
+            }
+            
+            .mobile-only {
+                display: block !important;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-only {
+                display: none !important;
+            }
+        }
+
         :root {
             --primary-color: #007bff;
             --secondary-color: #0056b3;
@@ -4336,12 +4432,13 @@
         <div class="content-area">
             <!-- Home Tab -->
             <div id="home" class="tab-content active">
-                <div class="welcome-card">
-                    <h2>🌟 Тавтай морилно уу!</h2>
-                    <p>Study Hub платформт тавтай морилно уу. Энд та суралцахдаа шаардлагатай бүх хэрэгслийг олж авах боломжтой.</p>
+            <div class="welcome-card">
+                <h2>🌟 Тавтай морилно уу!</h2>
+                <p>Study Hub платформт тавтай морилно уу. Энд та суралцахдаа шаардлагатай бүх хэрэгслийг олж авах боломжтой.</p>
+                <div class="mobile-only" style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                    <p style="margin: 0; font-size: 0.9rem;">📱 Гар утасны дэлгэц дээр тохируулсан дизайнаар ашиглаж байна</p>
                 </div>
-                
-                <div class="feature-grid">
+            </div>                <div class="feature-grid">
                     <div class="feature-card" onclick="showTab('notes')">
                         <span class="feature-icon">📝</span>
                         <h3 class="feature-title">Тэмдэглэл</h3>
@@ -9601,6 +9698,23 @@
 
         // Load saved preferences on page load
         document.addEventListener('DOMContentLoaded', function() {
+            // Mobile detection and setup
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            
+            if (isMobile) {
+                document.body.classList.add('mobile-device');
+                
+                // Show mobile-specific welcome message
+                setTimeout(() => {
+                    showNotification('📱 Гар утасны дэлгэцэд тохируулагдсан!', 'success');
+                }, 1500);
+                
+                // Optimize for touch
+                document.querySelectorAll('button, .nav-tab, .feature-card').forEach(el => {
+                    el.style.touchAction = 'manipulation';
+                });
+            }
+            
             // Load saved theme
             const savedTheme = localStorage.getItem('selectedTheme') || 'education';
             document.body.classList.add(savedTheme + '-theme');
