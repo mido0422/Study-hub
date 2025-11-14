@@ -94,6 +94,42 @@
         gtag('js', new Date());
         gtag('config', 'GA_MEASUREMENT_ID');
     </script>
+    
+    <!-- Navigation Styles -->
+    <style>
+        .top-nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 0 0 0 15px;
+            z-index: 1000;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
     <style>
         body {
             margin: 0;
@@ -208,6 +244,15 @@
     </style>
 </head>
 <body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <ul class="nav-links">
+            <li><a href="index.html">🏠 Нүүр</a></li>
+            <li><a href="mobile_preview.html">📱 Апп</a></li>
+            <li><a href="progress.html">📊 Ахиц</a></li>
+            <li><a href="login.html">👤 Нэвтрэх</a></li>
+        </ul>
+    </nav>
     <div class="landing-container">
         <div class="logo">📚</div>
         <h1>Study Hub</h1>

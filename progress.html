@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Hub - Ахиц Дэвшилийн Самбар | Суралцахуйн статистик</title>
+    <meta name="description" content="Study Hub ахиц дэвшилийн самбар - суралцахуйн статистик, зорилгын ахиц, цагийн хяналт, амжилтын дүн">
+    <meta name="keywords" content="ахиц дэвшил, статистик, зорилго, цагийн хяналт, суралцах, монгол">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Study Hub - Ахиц Дэвшилийн Самбар">
+    <meta property="og:description" content="Суралцахуйн ахиц дэвшлийг хянах дэлгэрэнгүй самбар">
+    <meta property="og:type" content="website">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header Navigation */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .page-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Stats Cards */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Progress Bars */
+        .progress-container {
+            margin: 1rem 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        /* Charts Container */
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .chart-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 1.1rem;
+        }
+
+        /* Achievement Section */
+        .achievements {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .achievement-badge {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .achievement-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .achievement-badge.earned {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .achievement-badge.locked {
+            background: #f8f9fa;
+            color: #6c757d;
+            opacity: 0.6;
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-overview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Color Schemes */
+        .study-time { background: linear-gradient(45deg, #6f42c1, #9c88ff); }
+        .goals { background: linear-gradient(45deg, #fd7e14, #ffb347); }
+        .tasks { background: linear-gradient(45deg, #20c997, #4dd0e1); }
+        .notes { background: linear-gradient(45deg, #e91e63, #f06292); }
+        .streaks { background: linear-gradient(45deg, #28a745, #66bb6a); }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                📚 Study Hub
+            </a>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">
+                            🏠 Нүүр хуудас
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="mobile_preview.html" class="nav-link">
+                            📱 Үндсэн апп
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="progress.html" class="nav-link active">
+                            📊 Ахиц дэвшил
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link">
+                            👤 Нэвтрэх
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">📊 Ахиц Дэвшилийн Самбар</h1>
+            <p class="page-subtitle">Таны суралцахуйн амжилт, статистик, зорилгын ахицыг хянаарай</p>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-number study-time" style="background: linear-gradient(45deg, #6f42c1, #9c88ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">156</div>
+                <div class="stat-label">Нийт суралцсан цаг</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number goals" style="background: linear-gradient(45deg, #fd7e14, #ffb347); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">12/15</div>
+                <div class="stat-label">Биелүүлсэн зорилго</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number tasks" style="background: linear-gradient(45deg, #20c997, #4dd0e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">48/52</div>
+                <div class="stat-label">Дууссан даалгавар</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number notes" style="background: linear-gradient(45deg, #e91e63, #f06292); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">84</div>
+                <div class="stat-label">Бичсэн тэмдэглэл</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number streaks" style="background: linear-gradient(45deg, #28a745, #66bb6a); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">7</div>
+                <div class="stat-label">Дараалсан өдөр</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Study Time Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon study-time">⏰</div>
+                    <h3 class="card-title">Суралцах Цагийн Хяналт</h3>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Өнөөдрийн зорилго</span>
+                        <span>3.5/4 цаг</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill study-time" style="width: 87.5%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Энэ 7 хоногийн зорилго</span>
+                        <span>22/28 цаг</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill study-time" style="width: 78.6%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Сарын зорилго</span>
+                        <span>89/120 цаг</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill study-time" style="width: 74.2%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goals Progress Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon goals">🎯</div>
+                    <h3 class="card-title">Зорилгын Ахиц</h3>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Математикийн хичээл</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill goals" style="width: 85%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Англи хэлний хичээл</span>
+                        <span>92%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill goals" style="width: 92%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Программчлал</span>
+                        <span>67%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill goals" style="width: 67%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Completion Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon tasks">✅</div>
+                    <h3 class="card-title">Даалгаврын Биелэлт</h3>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Өнөөдөр</span>
+                        <span>4/5</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill tasks" style="width: 80%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Энэ долоо хоног</span>
+                        <span>28/32</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill tasks" style="width: 87.5%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Энэ сар</span>
+                        <span>98/110</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill tasks" style="width: 89.1%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes Stats Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon notes">📝</div>
+                    <h3 class="card-title">Тэмдэглэлийн Статистик</h3>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Математик</span>
+                        <span>28 тэмдэглэл</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill notes" style="width: 70%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Англи хэл</span>
+                        <span>32 тэмдэглэл</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill notes" style="width: 80%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Программчлал</span>
+                        <span>24 тэмдэглэл</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill notes" style="width: 60%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(45deg, #007bff, #66b3ff);">📈</div>
+                    <h3 class="card-title">7 Хоногийн Суралцах Цаг</h3>
+                </div>
+                <div class="chart-placeholder" id="weeklyChart">
+                    📊 7 хоногийн цагийн график энд харагдана
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(45deg, #28a745, #66bb6a);">📊</div>
+                    <h3 class="card-title">Хичээлийн Хуваарилалт</h3>
+                </div>
+                <div class="chart-placeholder" id="subjectChart">
+                    🥧 Хичээлийн хуваарилалтын график энд харагдана
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievements Section -->
+        <div class="achievements">
+            <div class="card-header">
+                <div class="card-icon streaks">🏆</div>
+                <h3 class="card-title">Амжилт ба Шагнал</h3>
+            </div>
+            
+            <div class="achievement-grid">
+                <div class="achievement-badge earned">
+                    <div class="achievement-icon">🔥</div>
+                    <div class="achievement-name">7 өдөр дараалан</div>
+                </div>
+                <div class="achievement-badge earned">
+                    <div class="achievement-icon">⏰</div>
+                    <div class="achievement-name">100 цаг суралцлага</div>
+                </div>
+                <div class="achievement-badge earned">
+                    <div class="achievement-icon">📝</div>
+                    <div class="achievement-name">50 тэмдэглэл</div>
+                </div>
+                <div class="achievement-badge earned">
+                    <div class="achievement-icon">✅</div>
+                    <div class="achievement-name">Анхны зорилго</div>
+                </div>
+                <div class="achievement-badge locked">
+                    <div class="achievement-icon">🎯</div>
+                    <div class="achievement-name">30 өдөр дараалан</div>
+                </div>
+                <div class="achievement-badge locked">
+                    <div class="achievement-icon">📚</div>
+                    <div class="achievement-name">500 цаг суралцлага</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Progress Dashboard Loaded');
+            
+            // Load user data
+            loadProgressData();
+            
+            // Update charts (placeholder)
+            setTimeout(() => {
+                updateCharts();
+            }, 1000);
+        });
+
+        function loadProgressData() {
+            // Load from localStorage or use demo data
+            const progressData = JSON.parse(localStorage.getItem('studyHubProgress')) || getDefaultProgressData();
+            
+            // Update stats
+            updateStatsDisplay(progressData);
+            
+            // Update progress bars
+            updateProgressBars(progressData);
+            
+            console.log('Progress data loaded:', progressData);
+        }
+
+        function getDefaultProgressData() {
+            return {
+                totalStudyTime: 156,
+                goalsCompleted: 12,
+                totalGoals: 15,
+                tasksCompleted: 48,
+                totalTasks: 52,
+                totalNotes: 84,
+                currentStreak: 7,
+                dailyGoal: { completed: 3.5, target: 4 },
+                weeklyGoal: { completed: 22, target: 28 },
+                monthlyGoal: { completed: 89, target: 120 }
+            };
+        }
+
+        function updateStatsDisplay(data) {
+            // Update main stats (already set in HTML for demo)
+            console.log('Stats updated with data:', data);
+        }
+
+        function updateProgressBars(data) {
+            // Update progress bar animations
+            const progressBars = document.querySelectorAll('.progress-fill');
+            
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        }
+
+        function updateCharts() {
+            // Placeholder for chart updates
+            const weeklyChart = document.getElementById('weeklyChart');
+            const subjectChart = document.getElementById('subjectChart');
+            
+            if (weeklyChart) {
+                weeklyChart.innerHTML = '📈 Энэ долоо хоног: 3.2 цаг дундаж<br>Хамгийн их: Даваа гараг (4.5 цаг)';
+            }
+            
+            if (subjectChart) {
+                subjectChart.innerHTML = '🥧 Математик: 35% | Англи хэл: 40% | Программчлал: 25%';
+            }
+        }
+
+        // Navigation handling
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Handle navigation
+                console.log('Navigating to:', this.href);
+            });
+        });
+
+        // Achievement animations
+        document.querySelectorAll('.achievement-badge').forEach(badge => {
+            badge.addEventListener('click', function() {
+                if (this.classList.contains('earned')) {
+                    this.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1.05)';
+                    }, 200);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
