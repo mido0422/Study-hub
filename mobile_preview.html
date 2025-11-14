@@ -2,7 +2,11 @@
 <html lang="mn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#007bff">
     <title>💻 Study Hub - Боловсрол загвар</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -4326,65 +4330,6 @@
                 <button class="nav-tab" onclick="showTab('lessons')">📚 Хичээлийн цэс</button>
                 <button class="nav-tab" onclick="showTab('tasks')">📋 Даалгавар</button>
                 <button class="nav-tab" onclick="showTab('settings')">📋 Гэрийн даалгаврын цэс</button>
-                <button class="nav-tab" onclick="toggleMobileTesting()" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white;">📱 Утасны шалгалт</button>
-            </div>
-        </div>
-        
-        <!-- Mobile Testing Panel -->
-        <div id="mobileTestingPanel" class="mobile-testing-panel" style="display: none;">
-            <div class="testing-header">
-                <h3>📱 Гар утасны шалгалт</h3>
-                <button onclick="toggleMobileTesting()" class="close-testing">✕</button>
-            </div>
-            
-            <div class="testing-controls">
-                <div class="device-selector">
-                    <h4>📲 Төхөөрөмж сонгох:</h4>
-                    <div class="device-buttons">
-                        <button onclick="setDeviceSize('mobile', 375, 667)" class="device-btn">iPhone SE</button>
-                        <button onclick="setDeviceSize('mobile', 390, 844)" class="device-btn">iPhone 12</button>
-                        <button onclick="setDeviceSize('mobile', 414, 896)" class="device-btn">iPhone 11</button>
-                        <button onclick="setDeviceSize('tablet', 768, 1024)" class="device-btn">iPad</button>
-                        <button onclick="setDeviceSize('desktop', 1920, 1080)" class="device-btn">Desktop</button>
-                        <button onclick="setDeviceSize('reset')" class="device-btn reset">Reset</button>
-                    </div>
-                </div>
-                
-                <div class="orientation-controls">
-                    <h4>🔄 Байршил:</h4>
-                    <button onclick="setOrientation('portrait')" class="orientation-btn">Portrait</button>
-                    <button onclick="setOrientation('landscape')" class="orientation-btn">Landscape</button>
-                </div>
-                
-                <div class="performance-info">
-                    <h4>⚡ Гүйцэтгэл:</h4>
-                    <div class="perf-stats">
-                        <div class="stat">FPS: <span id="fpsCounter">60</span></div>
-                        <div class="stat">Load: <span id="loadTime">-</span>ms</div>
-                        <div class="stat">Memory: <span id="memoryUsage">-</span>MB</div>
-                    </div>
-                </div>
-                
-                <div class="touch-simulator">
-                    <h4>👆 Мэдрэгчийн шалгалт:</h4>
-                    <button onclick="simulateTouch()" class="touch-btn">Дарах шалгалт</button>
-                    <button onclick="testScrolling()" class="touch-btn">Гүйлгэх шалгалт</button>
-                    <button onclick="testSwipeGestures()" class="touch-btn">Шудрах шалгалт</button>
-                    <button onclick="runComprehensiveTest()" class="touch-btn" style="background: linear-gradient(135deg, #28a745, #20c997); border-color: #28a745; font-weight: 700;">🚀 Иж бүрэн шалгалт</button>
-                </div>
-                
-                <div class="compatibility-controls">
-                    <h4>🌐 Нийцтэй байдлын шалгалт:</h4>
-                    <button onclick="checkBrowserCompatibility()" class="touch-btn">Хөтөч шалгах</button>
-                    <button onclick="testResponsiveBreakpoints()" class="touch-btn">Дэлгэцийн шалгалт</button>
-                </div>
-            </div>
-            
-            <div class="test-results">
-                <h4>📊 Шалгалтын үр дүн:</h4>
-                <div id="testResults" class="results-container">
-                    <p>Шалгалт эхлүүлэхийн тулд дээрх товчнуудыг дарна уу.</p>
-                </div>
             </div>
         </div>
         
@@ -5862,11 +5807,6 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Утасны дугаар:</label>
-                                    <input type="tel" id="userPhone" placeholder="+976 xxxxxxxx">
-                                </div>
-
-                                <div class="form-group">
                                     <label>Төрсөн өдөр:</label>
                                     <input type="date" id="userBirthday">
                                 </div>
@@ -7154,7 +7094,6 @@
             document.getElementById('userFirstName').value = localStorage.getItem('userFirstName') || '';
             document.getElementById('userLastName').value = localStorage.getItem('userLastName') || '';
             document.getElementById('userEmail').value = localStorage.getItem('userEmail') || '';
-            document.getElementById('userPhone').value = localStorage.getItem('userPhone') || '';
             document.getElementById('userBirthday').value = localStorage.getItem('userBirthday') || '';
             document.getElementById('studyYear').value = localStorage.getItem('studyYear') || '';
             document.getElementById('userMajor').value = localStorage.getItem('userMajor') || '';
@@ -7168,7 +7107,6 @@
             const firstName = document.getElementById('userFirstName').value;
             const lastName = document.getElementById('userLastName').value;
             const email = document.getElementById('userEmail').value;
-            const phone = document.getElementById('userPhone').value;
             const birthday = document.getElementById('userBirthday').value;
             const studyYear = document.getElementById('studyYear').value;
             const major = document.getElementById('userMajor').value;
@@ -7178,7 +7116,6 @@
                 localStorage.setItem('userFirstName', firstName);
                 localStorage.setItem('userLastName', lastName);
                 localStorage.setItem('userEmail', email);
-                localStorage.setItem('userPhone', phone);
                 localStorage.setItem('userBirthday', birthday);
                 localStorage.setItem('studyYear', studyYear);
                 localStorage.setItem('userMajor', major);
@@ -7240,7 +7177,6 @@
                             firstName: localStorage.getItem('userFirstName'),
                             lastName: localStorage.getItem('userLastName'),
                             email: localStorage.getItem('userEmail'),
-                            phone: localStorage.getItem('userPhone'),
                             birthday: localStorage.getItem('userBirthday'),
                             studyYear: localStorage.getItem('studyYear'),
                             major: localStorage.getItem('userMajor'),
@@ -7307,7 +7243,6 @@
                             localStorage.setItem('userFirstName', data.profile.firstName || '');
                             localStorage.setItem('userLastName', data.profile.lastName || '');
                             localStorage.setItem('userEmail', data.profile.email || '');
-                            localStorage.setItem('userPhone', data.profile.phone || '');
                             localStorage.setItem('userBirthday', data.profile.birthday || '');
                             localStorage.setItem('studyYear', data.profile.studyYear || '');
                             localStorage.setItem('userMajor', data.profile.major || '');
@@ -7732,11 +7667,6 @@
             return regex.test(email);
         }
 
-        function validatePhone(phone) {
-            const regex = /^[\+]?[\d\s\-\(\)]{8,}$/;
-            return regex.test(phone);
-        }
-
         function addValidationFeedback(element, isValid, message = '') {
             const formGroup = element.closest('.form-group');
             formGroup.classList.remove('success', 'error');
@@ -7763,7 +7693,6 @@
             const firstName = document.getElementById('userFirstName').value.trim();
             const lastName = document.getElementById('userLastName').value.trim();
             const email = document.getElementById('userEmail').value.trim();
-            const phone = document.getElementById('userPhone').value.trim();
             
             let isValid = true;
             
@@ -7790,13 +7719,6 @@
                 isValid = false;
             } else {
                 addValidationFeedback(document.getElementById('userEmail'), true);
-            }
-            
-            if (phone && !validatePhone(phone)) {
-                addValidationFeedback(document.getElementById('userPhone'), false, 'Утасны дугаарын формат буруу байна');
-                isValid = false;
-            } else if (phone) {
-                addValidationFeedback(document.getElementById('userPhone'), true);
             }
             
             if (isValid) {
@@ -9677,24 +9599,9 @@
             }
         }
 
-        // Mobile Testing Functions
-        let originalViewport = null;
-        let performanceStartTime = Date.now();
-        
-        function toggleMobileTesting() {
-            const panel = document.getElementById('mobileTestingPanel');
-            if (panel.style.display === 'none') {
-                panel.style.display = 'block';
-                startPerformanceMonitoring();
-                logTestResult('📱 Гар утасны тест эхэллээ');
-            } else {
-                panel.style.display = 'none';
-                resetViewport();
-                logTestResult('📱 Гар утасны тест дууссан');
-            }
-        }
-
-        function setDeviceSize(type, width, height) {
+        // Load saved preferences on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved theme
             const appContainer = document.querySelector('.app-container');
             
             if (type === 'reset') {
